@@ -1,0 +1,11 @@
+{
+  "$comment": "Single reference for enumerations. Mirrored in backend/src/constants/enums.js and frontend/src/constants/index.js.",
+  "roles": ["admin", "analyst", "viewer"],
+  "caseTypes": ["Civil", "Criminal", "Family", "Property", "Commercial", "Consumer", "Labour", "Cheque Bounce"],
+  "courts": ["District Court", "Sessions Court", "High Court", "Family Court", "Consumer Forum", "Magistrate Court"],
+  "stages": ["Filing", "Admission", "Notice Issued", "Pleadings", "Evidence", "Arguments", "Judgment Reserved"],
+  "statuses": ["Pending", "Adjourned", "Stayed", "Disposed"],
+  "priorities": ["Low", "Normal", "High", "Urgent"],
+  "riskLevels": ["LOW", "MEDIUM", "HIGH"],
+  "recommendationPriorities": ["High", "Medium", "Low"]
+}

@@ -1,0 +1,26 @@
+# dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# env (never commit real secrets)
+.env
+.env.*
+!.env.example
+
+# build / logs
+dist/
+build/
+*.log
+.DS_Store
+.vscode/
+.idea/
+coverage/
+
+# ML data (keep the synthetic sample and trained demo artifacts)
+ml-service/data/raw/*
+!ml-service/data/raw/.gitkeep
+ml-service/data/processed/*
+!ml-service/data/processed/.gitkeep

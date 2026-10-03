@@ -1,0 +1,37 @@
+{
+  "$comment": "Contract between backend/src/services/mlService.js and ml-service (FastAPI). Live OpenAPI docs: http://localhost:8000/docs",
+  "baseUrlEnv": "ML_SERVICE_URL",
+  "endpoints": {
+    "GET /health": {
+      "response": { "status": "ok | degraded", "modelLoaded": true, "modelVersion": "xgb-v1", "similarityReady": true, "historicalCases": 3000 }
+    },
+    "GET /model-info": {
+      "response": { "modelVersion": "xgb-v1", "modelType": "xgboost", "metadata": { "metrics": "values written by training/train.py" } }
+    },
+    "POST /predict": {
+      "request": {
+        "court": "High Court", "state": "Maharashtra", "caseType": "Property", "filingDate": "2021-02-10",
+        "currentStage": "Evidence", "status": "Adjourned", "priority": "Normal",
+        "numberOfHearings": 28, "numberOfAdjournments": 15,
+        "lastHearingDate": "2026-04-15", "nextHearingDate": "2026-12-20",
+        "legalSections": ["Transfer of Property Act S.53A"], "description": "Title dispute ..."
+      },
+      "response": {
+        "riskLevel": "HIGH", "probability": 0.97, "classProbabilities": { "LOW": 0.01, "MEDIUM": 0.02, "HIGH": 0.97 },
+        "predictedDelayDays": 1200, "modelVersion": "xgb-v1", "modelType": "xgboost",
+        "features": [{ "feature": "numberOfAdjournments", "label": "Number of adjournments", "value": 15, "impact": 1.52, "predictedClassImpact": 0.83, "direction": "increases_risk" }],
+        "explanation": { "method": "SHAP TreeExplainer", "label": "Model feature contribution", "basis": "...", "features": [], "summary": ["+ ..."], "disclaimer": "..." },
+        "inputFeatures": { "caseAgeDays": 2061, "adjournmentRatio": 0.53 }
+      },
+      "errors": { "422": "invalid features", "503": "model not loaded", "500": "unexpected" }
+    },
+    "POST /explain": { "request": "same as /predict", "response": "explanation object only" },
+    "POST /similar": {
+      "request": { "query": "case features (with id)", "candidates": [{ "id": "...", "caseNumber": "...", "riskLevel": "HIGH" }], "topK": 5, "includeHistorical": true },
+      "response": {
+        "method": "tfidf-cosine",
+        "results": [{ "caseId": "mongo id or null", "referenceId": "id | hist:<caseNumber>", "source": "database | historical-sample", "caseNumber": "...", "similarityScore": 0.84, "riskLevel": "HIGH", "explanation": "same case type ...; shared terms: ..." }]
+      }
+    }
+  }
+}

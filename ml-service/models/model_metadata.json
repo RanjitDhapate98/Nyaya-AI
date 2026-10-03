@@ -1,0 +1,65 @@
+{
+  "modelVersion": "xgb-v1",
+  "modelType": "xgboost",
+  "trainedAt": "2026-10-03T06:54:05.213268+00:00",
+  "dataset": "E:\\nyaya-ai\\nyaya-ai\\ml-service\\data\\sample\\sample_cases.csv",
+  "datasetIsSynthetic": true,
+  "rows": 3000,
+  "trainRows": 2400,
+  "testRows": 600,
+  "rawFeatures": [
+    "caseAgeDays",
+    "numberOfHearings",
+    "numberOfAdjournments",
+    "adjournmentRatio",
+    "hearingsPerYear",
+    "daysSinceLastHearing",
+    "daysToNextHearing",
+    "numLegalSections",
+    "descriptionLength",
+    "caseType",
+    "court",
+    "state",
+    "currentStage",
+    "status",
+    "priority"
+  ],
+  "encodedFeatureCount": 46,
+  "classDistribution": {
+    "MEDIUM": 1236,
+    "LOW": 909,
+    "HIGH": 855
+  },
+  "metrics": {
+    "accuracy": 0.7267,
+    "precision_macro": 0.7394,
+    "recall_macro": 0.7315,
+    "f1_macro": 0.7337,
+    "f1_weighted": 0.727,
+    "labels": [
+      "LOW",
+      "MEDIUM",
+      "HIGH"
+    ],
+    "confusion_matrix": [
+      [
+        145,
+        37,
+        0
+      ],
+      [
+        51,
+        169,
+        27
+      ],
+      [
+        3,
+        46,
+        122
+      ]
+    ],
+    "regression": {
+      "mae_days": 97.54
+    }
+  }
+}

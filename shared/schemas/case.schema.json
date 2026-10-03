@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CaseInput",
+  "description": "Body for POST/PUT /api/cases. Enforced by backend/src/validators/caseValidators.js (Zod).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["caseNumber", "title", "court", "state", "caseType", "filingDate", "currentStage", "status", "priority", "petitioner", "respondent", "numberOfHearings", "numberOfAdjournments"],
+  "properties": {
+    "caseNumber": { "type": "string", "minLength": 3, "maxLength": 60, "pattern": "^[A-Za-z0-9/_.\\- ]+$" },
+    "title": { "type": "string", "minLength": 3, "maxLength": 250 },
+    "court": { "enum": ["District Court", "Sessions Court", "High Court", "Family Court", "Consumer Forum", "Magistrate Court"] },
+    "state": { "type": "string", "minLength": 2, "maxLength": 60 },
+    "district": { "type": "string", "maxLength": 60 },
+    "caseType": { "enum": ["Civil", "Criminal", "Family", "Property", "Commercial", "Consumer", "Labour", "Cheque Bounce"] },
+    "filingDate": { "type": "string", "format": "date", "description": "Not in the future" },
+    "currentStage": { "enum": ["Filing", "Admission", "Notice Issued", "Pleadings", "Evidence", "Arguments", "Judgment Reserved"] },
+    "status": { "enum": ["Pending", "Adjourned", "Stayed", "Disposed"] },
+    "priority": { "enum": ["Low", "Normal", "High", "Urgent"] },
+    "petitioner": { "type": "string", "minLength": 2, "maxLength": 200 },
+    "respondent": { "type": "string", "minLength": 2, "maxLength": 200 },
+    "judge": { "type": "string", "maxLength": 120 },
+    "numberOfHearings": { "type": "integer", "minimum": 0, "maximum": 5000 },
+    "numberOfAdjournments": { "type": "integer", "minimum": 0, "maximum": 5000, "description": "<= numberOfHearings" },
+    "lastHearingDate": { "type": "string", "format": "date", "description": ">= filingDate, not in the future" },
+    "nextHearingDate": { "type": "string", "format": "date", "description": ">= lastHearingDate and >= filingDate" },
+    "legalSections": { "oneOf": [{ "type": "array", "items": { "type": "string" }, "maxItems": 30 }, { "type": "string", "description": "semicolon separated" }] },
+    "description": { "type": "string", "maxLength": 5000 },
+    "historicalData": { "type": "array", "items": { "type": "object", "required": ["date", "event"], "properties": { "date": { "type": "string", "format": "date" }, "event": { "type": "string" }, "notes": { "type": "string" } } } }
+  }
+}
