@@ -65,6 +65,13 @@ app.get('/api/health', asyncHandler(async (_req, res) => {
   });
 }));
 
+// Friendly root + short health alias so opening the bare service URL doesn't look like an error.
+app.get('/', (_req, res) => sendSuccess(res, {
+  data: { name: 'NyayaAI API', health: '/api/health', docs: 'See docs/api.md in the repository' },
+  message: 'NyayaAI API is running',
+}));
+app.get(['/health', '/api'], (_req, res) => res.redirect(302, '/api/health'));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/cases', caseRoutes);
 app.use('/api/predictions', predictionRoutes);
